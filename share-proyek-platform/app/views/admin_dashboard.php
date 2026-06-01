@@ -124,13 +124,11 @@ table tr:hover{
 }
 
 </style>
-
 </head>
 <body>
 
 <div class="admin-header">
     <h1>Dashboard Admin</h1>
-
     <a href="/share-proyek-platform/public/logout"
        class="logout-btn">
         Logout
@@ -138,29 +136,22 @@ table tr:hover{
 </div>
 
 <div class="container">
-
     <!--statistik-->
     <div class="stats">
-
         <div class="card">
             <h3>Total User</h3>
             <p><?= $data['totalUsers']['total']; ?></p>
         </div>
-
         <div class="card">
             <h3>Total Laporan</h3>
             <p><?= $data['totalReports']['total']; ?></p>
         </div>
-
     </div>
 
     <!--DataUser-->
     <div class="section">
-
         <h2>Daftar User</h2>
-
         <table>
-
             <thead>
                 <tr>
                     <th>ID</th>
@@ -168,7 +159,6 @@ table tr:hover{
                     <th>Email</th>
                 </tr>
             </thead>
-
             <tbody>
 
             <?php foreach($data['users'] as $user): ?>
@@ -178,88 +168,71 @@ table tr:hover{
                     <td><?= htmlspecialchars($user['username']); ?></td>
                     <td><?= htmlspecialchars($user['email']); ?></td>
                 </tr>
-
             <?php endforeach; ?>
-
             </tbody>
-
         </table>
-
     </div>
 
     <!--DataLaporan-->
-    <div class="section">
+<div class="section">
+    <h2>Daftar Laporan</h2>
+    <?php if(empty($data['reports'])): ?>
+        <div class="empty">
+            Belum ada laporan masuk.
+        </div>
 
-        <h2>Daftar Laporan</h2>
+    <?php else: ?>
 
-        <?php if(empty($data['reports'])): ?>
+    <table>
 
-            <div class="empty">
-                Belum ada laporan masuk.
-            </div>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Pelapor</th>
+                <th>Judul</th>
+                <th>Deskripsi</th>
+                <th>Lokasi</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
 
-        <?php else: ?>
+        <tbody>
 
-        <table>
+        <?php foreach($data['reports'] as $report): ?>
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Pelapor</th>
-                    <th>Judul</th>
-                    <th>Lokasi</th>
-                    <th>Tanggal</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
+            <tr>
+                <td><?= $report['id']; ?></td>
+                <td>
+                    <?= htmlspecialchars($report['username']); ?>
+                </td>
+                <td>
+                    <?= htmlspecialchars($report['title']); ?>
+                </td>
+                <td>
+                    <?= htmlspecialchars($report['description']); ?>
+                </td>
+                <td>
+                    <?= htmlspecialchars($report['location']); ?>
+                </td>
+                <td>
+                    <?= $report['report_date']; ?>
+                </td>
+                <td>
 
-            <tbody>
+                    <a class="btn-delete"
+                       onclick="return confirm('Yakin ingin menghapus laporan ini?')"
+                       href="/share-proyek-platform/public/admin/delete/<?= $report['id']; ?>">
+                        Hapus
+                    </a>
+                </td>
+            </tr>
 
-            <?php foreach($data['reports'] as $report): ?>
+        <?php endforeach; ?>
 
-                <tr>
+        </tbody>
+    </table>
 
-                    <td><?= $report['id']; ?></td>
-
-                    <td>
-                        <?= htmlspecialchars($report['username']); ?>
-                    </td>
-
-                    <td>
-                        <?= htmlspecialchars($report['title']); ?>
-                    </td>
-
-                    <td>
-                        <?= htmlspecialchars($report['location']); ?>
-                    </td>
-
-                    <td>
-                        <?= $report['report_date']; ?>
-                    </td>
-
-                    <td>
-
-                        <a class="btn-delete"
-                           onclick="return confirm('Yakin ingin menghapus laporan ini?')"
-                           href="/share-proyek-platform/public/admin/delete/<?= $report['id']; ?>">
-                            Hapus
-                        </a>
-
-                    </td>
-
-                </tr>
-
-            <?php endforeach; ?>
-
-            </tbody>
-
-        </table>
-
-        <?php endif; ?>
-
-    </div>
+    <?php endif; ?>
 
 </div>
-
-</body>
-</html>
